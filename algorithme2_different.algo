@@ -1,0 +1,71 @@
+ALGORITHM algorithm_2_solution1
+VAR
+    array_one : ARRAY_OF integer;
+    array_two : ARRAY_OF integer;
+    i: integer
+    sum:integer:=0
+    counter:integer
+BEGIN
+   FOR i FROM 0 TO length(array_one)-1 STEP 1  DO
+       read (array_one[i])
+   END_FOR
+   FOR j FROM 0 TO length(array_two)-1 STEP 1  DO
+       read (array_two[j])
+   END_FOR
+   FOR k FROM 0 TO length(array_one)-1 STEP 1  DO
+   counter:=0
+       FOR l FROM 0 TO length(array_two)-1 STEP 1  DO
+          IF (array_one[k] <> array_two[l]) THEN
+              counter:=counter+1
+          END_IF
+       END_FOR
+          IF (counter=length(array_two)) THEN
+             sum:=sum+array_one[k]
+       END_IF
+   END_FOR
+    FOR l FROM 0 TO length(array_two)-1 STEP 1  DO
+   counter:=0
+       FOR k FROM 0 TO length(array_one)-1 STEP 1  DO
+          IF (array_one[k] <> array_two[l]) THEN
+              counter:=counter+1
+          END_IF
+       END_FOR
+          IF (counter=array_one) THEN
+             sum:=sum+array_two[l]
+       END_IF
+   END_FOR
+END
+ALGORITHM algorithm_2_solution2
+VAR
+    array_one : ARRAY_OF integer;
+    array_two : ARRAY_OF integer;
+    htab:HASH_TABLE<integer,integer>
+    array_values: ARRAY_OF integer;
+    array_keys: ARRAY_OF integer;
+    sum:integer:=0
+BEGIN
+     FOR i FROM 0 TO length(array_one)-1 STEP 1  DO
+       read (array_one[i])
+   END_FOR
+   FOR j FROM 0 TO length(array_two)-1 STEP 1  DO
+       read (array_two[j])
+   END_FOR
+   FOR k FROM 0 TO length(array_one)-1 STEP 1  DO
+       htab.insert(array_one[k],1)
+   END_FOR
+   FOR l FROM 0 TO length(array_two)-1 STEP 1  DO
+       IF (htab.lookup(array_two[l])=true) THEN
+           htab.insert(array_two[l],2)
+           ELSE
+            htab.insert(array_two[l],1)
+       END_IF
+   END_FOR
+   array_values:=htab.getvalues
+   array_keys:=htab.getkeys
+   FOR m FROM 0 TO length(array_values)-1 STEP 1  DO
+   IF (array_values[m]=1) THEN
+      sum:=sum+array_keys[m]
+   END_IF
+   END_FOR
+   write (sum)
+END
